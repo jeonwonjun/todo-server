@@ -1,0 +1,25 @@
+spring:
+  jpa:
+    show-sql: true
+    hibernate:
+      #하이버네이트 사용해서 데이터베이스 스키마를 생성하는 제어하는 옵션
+      ddl-auto: none # none: 어플리케이션을 시작할 때 데티어베이스 스키마를 변경하지 않음
+    # springboot에서 jpa를 사용해서 database를 다룰 때 hibernate에서 사용할 database platform을 지정하는 데 사용하는 옵션
+    database-platform: org.hibernate.dialect.H2Dialect
+
+  sql:
+    init:
+      # 어플리케이션을 시작할 때 초기 sql 스크립트 실행하는 방법 옵션
+      mode: always # 항상 초기 sql 스크립트를 실행하겠다.
+      platform: h2
+
+  datasource:
+    url: jdbc:h2:mem:development;MODE=MYSQL;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+    driverClassName: org.h2.Driver
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
