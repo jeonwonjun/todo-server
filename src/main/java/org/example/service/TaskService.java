@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j // log사용
 @Service // service 클래스 이기 때문에
@@ -30,6 +32,41 @@ public class TaskService {
         var saved = this.taskRepository.save(e);
         return entityToObject(saved);
     }
+
+    // Task의 모든 목록을 조회하는 method
+    public List<Task> getAll() {
+        return this.taskRepository.findAll().stream()
+                .map(this::entityToObject)
+                .collect(Collectors.toList());
+    }
+
+    // dueDate에 해당하는 Task 목록 조회하는 method
+    public List<Task> getByDueDate(String dueDate) {
+        return this.taskRepository.findAllByDueDate(Date.valueOf(dueDate)).stream()
+                .map(this::entityToObject)
+                .collect(Collectors.toList());
+    }
+
+    // status에 해당하는 Task 목록 조회하는 method
+    public List<Task> getByStatus(TaskStatus status) {
+        return this.taskRepository.findAllByStatus((status)).stream()
+                .map(this::entityToObject)
+                .collect(Collectors.toList());
+    }
+
+    // 특정 ID에 해당하는 Task 데이터 조회하는 method
+    public Task getOne(Long id) {
+        var entity = this.getById(id);
+        return this.entityToObject(entity);
+    }
+
+    private TaskEntity getById(Long id) {
+        return this.taskRepository.findById(id)
+                .orElseThrow(() ->
+                        new IllegalArgumentException(String.format("not exists task id {%d}", id)));
+    }
+
+
 
     private Task entityToObject(TaskEntity e) {
         return Task.builder()
