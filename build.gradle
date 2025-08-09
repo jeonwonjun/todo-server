@@ -20,9 +20,17 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
-    testImplementation platform('org.junit:junit-bom:5.10.0')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // springboot 테스트 포함하여 mockMVC를 테스트 하기 위한 스타터
+    // HTTP 요청, 응답 테스트 하기 위해 사용 가능
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    // mockito library에서 제공하는 junit jupiter용 mockito extention class를 사용하기 위함
+    // mockito extention: mockito library junit5용 확장 프로그램
+    testImplementation 'org.mockito:mockito-junit-jupiter:3.12.4'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+
 }
 
 test {
